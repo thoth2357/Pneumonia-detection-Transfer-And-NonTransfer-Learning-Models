@@ -1,5 +1,6 @@
 from tensorflow.keras.models import Model
 from tensorflow.keras.applications.inception_v3 import InceptionV3
+from tensorflow.keras.utils import plot_model
 from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, BatchNormalization, Reshape, GlobalAveragePooling2D
 
 
