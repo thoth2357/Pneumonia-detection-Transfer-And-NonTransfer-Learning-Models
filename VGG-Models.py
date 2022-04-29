@@ -39,7 +39,7 @@ def model_create_and_train(model_type,):
         layer.trainable = False
     
     flattened = Flatten()(model.output)
-    predictions = Dense(2, activation='sigmoid')(x)
+    predictions = Dense(2, activation='sigmoid')(flattened)
 
     model_final = Model(inputs=model.input, outputs=predictions)
 
