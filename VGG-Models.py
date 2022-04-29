@@ -1,10 +1,6 @@
-from tensorflow.keras.optimizers import Adam, Adadelta
+
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, BatchNormalization, Reshape, GlobalAveragePooling2D
-from tensorflow.keras.layers import Conv2D, SeparableConv2D, MaxPool2D, LeakyReLU, Activation, MaxPooling2D
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from tensorflow.keras.utils import plot_model
 from tensorflow.keras.applications import VGG19, VGG16
 
@@ -21,7 +17,7 @@ train_image_aug, test_image_aug = data_preprocessor.data_augmentation()
 train_set, test_set = data_preprocessor.dataset_splitting(train_image_aug, test_image_aug)
 
 
-def model_create(model_type, ):
+def model_create(model_type,):
     '''
     argument: model_type (which is going to be the type of Vgg model to work on either VGG19 or VGG 16)
     purpose: Create VGG model with necessary hyperparameters
@@ -43,3 +39,11 @@ def model_create(model_type, ):
         checkpoint = callback.model_checkpoint(model_type = 'VGG19')
         learning_reducer = callback.learning_reducer()
         early_stop = callback.early_stopping()
+
+        compiled_model = callback.model_compiler(model_final)
+       
+        trained_model = compiled_model.fit(
+            train_set,
+            epochs = data_preprocessor.,
+
+        )
