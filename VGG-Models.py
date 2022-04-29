@@ -58,4 +58,3 @@ def model_create_and_train(model_type,data_preprocessor, callback, train_set, te
         callback = [checkpoint, learning_reducer, early_stop]
     )
     return trained_model
-

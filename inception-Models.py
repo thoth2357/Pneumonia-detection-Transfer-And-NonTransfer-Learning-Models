@@ -4,7 +4,7 @@ from tensorflow.keras.utils import plot_model
 from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, BatchNormalization, Reshape, GlobalAveragePooling2D
 
 
-def model_create_and_train(model_type, data_preprocessor, callback, train_set, test_set):
+def model_create_and_train(data_preprocessor, callback, train_set, test_set):
     '''
     argument: model_type (which is going to be the type of Vgg model to work on either VGG19 or VGG 16)
     purpose: Create Inference model with necessary hyperparameters
@@ -45,3 +45,4 @@ def model_create_and_train(model_type, data_preprocessor, callback, train_set, t
         callback = [checkpoint, learning_reducer, early_stop]
     )
     return trained_model
+
