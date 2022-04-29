@@ -11,9 +11,10 @@ from tensorflow.keras.applications import VGG19, VGG16
 
 
 from preprocessing import *
+from model_tuners import Callbacks
 
 data_preprocessor = Preprocessing()
-
+callback = Callbacks(monitor = 'val_loss' , patience = 2)
 data_preprocessor.basic_descriptive_of_images()
 train_image_aug, test_image_aug = data_preprocessor.data_augmentation()
 
@@ -39,4 +40,6 @@ def model_create(model_type, ):
 
         model_final = Model(inputs=model.input, outputs=predictions)
 
-        
+        checkpoint = callback.model_checkpoint(model_type = 'VGG19')
+        learning_reducer = callback.learning_reducer()
+        early_stop = callback.early_stopping()

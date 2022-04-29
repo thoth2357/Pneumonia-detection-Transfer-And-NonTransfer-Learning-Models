@@ -1,6 +1,5 @@
-from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
-
-class callbacks():
+from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
+class Callbacks():
     def __init__(self, monitor, patience):
         self.monitor = monitor
         self.patience = patience
@@ -29,8 +28,16 @@ class callbacks():
         )
         return learning_reducer
     
-    def model_checkpoint(self):
+    def model_checkpoint(self, model_type):
         '''
         argument: None
         purpose: helps to save best performing models when an epoch increases the metrics ends
+        return: checkpoint object
         '''
+        checkpoint = ModelCheckpoint(
+            filepath = f'{model_type}_weights.hdf5',
+            save_best_only = True,
+            save_weights_only = False,
+            mode = 'auto'
+        )
+        return checkpoint
