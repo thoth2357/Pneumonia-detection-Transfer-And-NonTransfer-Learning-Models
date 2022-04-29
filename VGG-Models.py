@@ -6,18 +6,7 @@ from tensorflow.keras.applications import VGG19, VGG16
 
 
 
-from preprocessing import *
-from model_tuners import Callbacks
-
-data_preprocessor = Preprocessing()
-callback = Callbacks(monitor = 'val_loss' , patience = 2)
-data_preprocessor.basic_descriptive_of_images()
-train_image_aug, test_image_aug = data_preprocessor.data_augmentation()
-
-train_set, test_set = data_preprocessor.dataset_splitting(train_image_aug, test_image_aug)
-
-
-def model_create_and_train(model_type,):
+def model_create_and_train(model_type,data_preprocessor, callback, train_set, test_set):
     '''
     argument: model_type (which is going to be the type of Vgg model to work on either VGG19 or VGG 16)
     purpose: Create VGG model with necessary hyperparameters
