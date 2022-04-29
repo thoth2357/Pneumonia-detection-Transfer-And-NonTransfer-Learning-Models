@@ -1,7 +1,6 @@
-import tensorflow as tf
 from tensorflow.keras.optimizers import Adam, Adadelta
 from tensorflow.keras.models import Model, Sequential
-from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, BatchNormalization, Reshape
+from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, BatchNormalization, Reshape, GlobalAveragePooling2D
 from tensorflow.keras.layers import Conv2D, SeparableConv2D, MaxPool2D, LeakyReLU, Activation, MaxPooling2D
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -9,14 +8,7 @@ from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, Early
 from tensorflow.keras.utils import plot_model
 from tensorflow.keras.applications import VGG19, VGG16
 
-from sklearn import model_selection
-from sklearn.linear_model import LogisticRegression
-from sklearn.neural_network import MLPClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score, confusion_matrix
-from sklearn.utils.class_weight import compute_class_weight
-from sklearn.metrics import accuracy_score, confusion_matrix
+
 
 from preprocessing import *
 
@@ -29,4 +21,22 @@ train_set, test_set = data_preprocessor.dataset_splitting(train_image_aug, test_
 
 
 def model_create(model_type, ):
+    '''
+    argument: model_type (which is going to be the type of Vgg model to work on either VGG19 or VGG 16)
+    purpose: Create VGG model with necessary hyperparameters
+    return: Created and compiled Vgg model waiting to be trained
+    '''
+    if model_type == 'VGG19':
+        model = tf.keras.applications.VGG19(
+            weights = 'imagenet',
+            include_top = False
+        )
+        for layer in model.layers:
+            layer.trainable = False
+        
+        flattened = Flatten()(model.output)
+        predictions = Dense(2, activation='sigmoid')(x)
 
+        model_final = Model(inputs=model.input, outputs=predictions)
+
+        
