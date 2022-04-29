@@ -17,40 +17,47 @@ train_image_aug, test_image_aug = data_preprocessor.data_augmentation()
 train_set, test_set = data_preprocessor.dataset_splitting(train_image_aug, test_image_aug)
 
 
-def model_create(model_type,):
+def model_create_and_train(model_type,):
     '''
     argument: model_type (which is going to be the type of Vgg model to work on either VGG19 or VGG 16)
     purpose: Create VGG model with necessary hyperparameters
-    return: Created and compiled Vgg model waiting to be trained
+    return: Created,compiled and trained Vgg model
     '''
     if model_type == 'VGG19':
-        model = tf.keras.applications.VGG19(
-            weights = 'imagenet',
-            include_top = False
-        )
-        for layer in model.layers:
-            layer.trainable = False
-        
-        flattened = Flatten()(model.output)
-        predictions = Dense(2, activation='sigmoid')(x)
+        model_name = VGG19
+    elif model_type == 'VGG16':
+        model_name = VGG16
+    else:
+        return f'Error on Model type'
+        quit()
 
-        model_final = Model(inputs=model.input, outputs=predictions)
+    model = model_name(
+        weights = 'imagenet',
+        include_top = False
+    )
+    for layer in model.layers:
+        layer.trainable = False
+    
+    flattened = Flatten()(model.output)
+    predictions = Dense(2, activation='sigmoid')(x)
 
-        checkpoint = callback.model_checkpoint(model_type = 'VGG19')
-        learning_reducer = callback.learning_reducer()
-        early_stop = callback.early_stopping()
+    model_final = Model(inputs=model.input, outputs=predictions)
 
-        compiled_model = callback.model_compiler(model_final)
-       
-        trained_model = compiled_model.fit(
-            train_set,
-            epochs = data_preprocessor.EPOCHS,
-            steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,
-            batch_size = data_preprocessor.batch_size,
+    checkpoint = callback.model_checkpoint(model_type = 'VGG19')
+    learning_reducer = callback.learning_reducer()
+    early_stop = callback.early_stopping()
 
-            validation_data = test_set,
-            validation_steps = test_set.samples // data_preprocessor.BATCH_SIZE - 10,
-            callback = [checkpoint, learning_reducer, early_stop]
+    compiled_model = callback.model_compiler(model_final)
+    
+    trained_model = compiled_model.fit(
+        train_set,
+        epochs = data_preprocessor.EPOCHS,
+        steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,
+        batch_size = data_preprocessor.batch_size,
 
-        )
-        
+        validation_data = test_set,
+        validation_steps = test_set.samples // data_preprocessor.BATCH_SIZE - 10,
+        callback = [checkpoint, learning_reducer, early_stop]
+    )
+    return trained_model
+
