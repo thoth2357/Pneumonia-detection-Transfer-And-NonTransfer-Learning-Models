@@ -7,7 +7,7 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from tensorflow.keras.utils import plot_model
-from te
+from tensorflow.keras.applications import VGG19, VGG16
 
 from sklearn import model_selection
 from sklearn.linear_model import LogisticRegression
@@ -28,4 +28,5 @@ train_image_aug, test_image_aug = data_preprocessor.data_augmentation()
 train_set, test_set = data_preprocessor.dataset_splitting(train_image_aug, test_image_aug)
 
 
-model = 
+def model_create(model_type, ):
+
