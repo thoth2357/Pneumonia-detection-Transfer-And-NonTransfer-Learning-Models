@@ -130,7 +130,6 @@ class Preprocessing():
             # shuffle=True,
             # color_mode="grayscale"
         )
-
         return train_set, test_set
 
     

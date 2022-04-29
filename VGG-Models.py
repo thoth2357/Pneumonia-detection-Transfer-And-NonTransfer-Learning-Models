@@ -44,6 +44,13 @@ def model_create(model_type,):
        
         trained_model = compiled_model.fit(
             train_set,
-            epochs = data_preprocessor.,
+            epochs = data_preprocessor.EPOCHS,
+            steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,
+            batch_size = data_preprocessor.batch_size,
+
+            validation_data = test_set,
+            validation_steps = test_set.samples // data_preprocessor.BATCH_SIZE - 10,
+            callback = [checkpoint, learning_reducer, early_stop]
 
         )
+        
