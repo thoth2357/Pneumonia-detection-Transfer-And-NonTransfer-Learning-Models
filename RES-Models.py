@@ -2,7 +2,7 @@
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, BatchNormalization, Reshape, GlobalAveragePooling2D
 from tensorflow.keras.utils import plot_model
-from tensorflow.keras.applications import VGG19, VGG16
+from tensorflow.keras.applications import ResNet101, ResNet50
 
 
 
@@ -21,33 +21,24 @@ def model_create_and_train(model_type,):
     '''
     argument: model_type (which is going to be the type of Vgg model to work on either VGG19 or VGG 16)
     purpose: Create VGG model with necessary hyperparameters
-    return: Created,compiled and trained Vgg model
+    return: Created,compiled and trained ResNet model
     '''
-    if model_type == 'VGG19':
-        model_name = VGG19
-    elif model_type == 'VGG16':
-        model_name = VGG16
+    if model_type == 'ResNet101':
+        model_name = ResNet101
+    elif model_type == 'ResNet50':
+        model_name = ResNet50
     else:
         return f'Error on Model type'
         quit()
 
     model = model_name(
         weights = 'imagenet',
-        include_top = False,
-        # input_shape = (224, 224, 3)
+        include_top = False
     )
     for layer in model.layers:
         layer.trainable = False
     
-    x  = Flatten()(model.output)
-    # Add a fully connected layer with 512 hidden units and ReLU activation
-    x = Dense(512, activation='relu')(x)
-
-    # Add a dropout rate of 0.5
-    x = Dropout(0.5)(x)
-
-    # Add a final sigmoid layer with 1 node for classification output
-    x = Dense(1, activation='sigmoid')(x)
+    x = model.output
     predictions = Dense(1, activation='sigmoid')(x)
 
     model_final = Model(inputs=model.input, outputs=predictions)
