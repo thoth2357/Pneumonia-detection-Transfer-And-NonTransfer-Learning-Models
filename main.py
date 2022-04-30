@@ -13,6 +13,16 @@ data_preprocessor.basic_5descriptive_of_images()
 train_image_aug, test_image_aug = data_preprocessor.data_augmentation()
 
 train_set, test_set = data_preprocessor.dataset_splitting(train_image_aug, test_image_aug)
- 
+
+models_available = {
+    '1': 'VGG16',
+    '2': 'VGG19',
+    '3': 'ResNet50',
+    '4': 'ResNet101',
+    '5': 'InceptionV3',
+    '6': 'EfficientNetB0',
+    '7': 'DenseNet121'
+}
 print('''What your model are you interested in training and fitting on our data\n
-Here Are The Following Models Available to train and evaluate''')
+Here Are The Following Models Available to train and evaluate\n
+''')
