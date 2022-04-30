@@ -23,6 +23,8 @@ models_available = {
     '6': 'EfficientNetB0',
     '7': 'DenseNet121'
 }
-print('''What your model are you interested in training and fitting on our data\n
+
+print(f'''What your model are you interested in training and fitting on our data\n
 Here Are The Following Models Available to train and evaluate\n
-''')
+{[model for model in models_available.values()]}''')
+model_choosed = str(input('\n Choose Model: '))
