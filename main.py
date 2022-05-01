@@ -21,17 +21,35 @@ def main():
             'model_type':'VGG16',
             'command': vgg_mod.model_create_and_train
         },
-        '2': 'VGG19',
-        '3': 'ResNet50',
-        '4': 'ResNet101',
-        '5': 'InceptionV3',
-        '6': 'EfficientNetB0',
-        '7': 'DenseNet121'
+        '2': {
+            'model_type':'VGG19',
+            'command': vgg_mod.model_create_and_train
+        },
+        '3': {
+            'model_type':'ResNet50',
+            'command': res_mod.model_create_and_train
+        },
+        '4': {
+            'model_type':'ResNet101',
+            'command': res_mod.model_create_and_train
+        },
+        '5': {
+            'model_type': 'InceptionV3',
+            'command': inception_mod.model_create_and_train
+        },
+        '6': {
+            'model_type':'EfficientNetB0',
+            'command': efficientNet_mod.model_create_and_train
+        },
+        '7': {
+            'model_type':'DenseNet121',
+            'command': denseNet_mod.model_create_and_train
+        }
     }
 
     print(f'''What your model are you interested in training and fitting on our data\n
     Here Are The Following Models Available to train and evaluate\n
-    {[model for model in models_available.values()]}''')
+    {[model['model_type'] for model in models_available.values()]}''')
 
     try:
         model_choosed = str(input('\n Choose Model: '))
@@ -43,6 +61,4 @@ def main():
         print('Model choosen does not exist in the model options available. Note this could be caused by a wrong spelling')
         main()
     
-    
-    
-    models_available[model_choosed]()
+    models_available[model_choosed]['command']()
