@@ -19,31 +19,31 @@ def main():
     models_available = {
         '1': {
             'model_type':'VGG16',
-            'command': vgg_mod.model_create_and_train
+            'command': vgg_mod.model_create_and_train('VGG16',data_preprocessor, callback, train_set, test_set)
         },
         '2': {
             'model_type':'VGG19',
-            'command': vgg_mod.model_create_and_train
+            'command': vgg_mod.model_create_and_train('VGG16',data_preprocessor, callback, train_set, test_set)
         },
         '3': {
             'model_type':'ResNet50',
-            'command': res_mod.model_create_and_train
+            'command': res_mod.model_create_and_train('ResNet50',data_preprocessor, callback, train_set, test_set)
         },
         '4': {
             'model_type':'ResNet101',
-            'command': res_mod.model_create_and_train
+            'command': res_mod.model_create_and_train('ResNet101',data_preprocessor, callback, train_set, test_set)
         },
         '5': {
             'model_type': 'InceptionV3',
-            'command': inception_mod.model_create_and_train
+            'command': inception_mod.model_create_and_train(data_preprocessor, callback, train_set, test_set)
         },
         '6': {
             'model_type':'EfficientNetB0',
-            'command': efficientNet_mod.model_create_and_train
+            'command': efficientNet_mod.model_create_and_train(data_preprocessor, callback, train_set, test_set)
         },
         '7': {
             'model_type':'DenseNet121',
-            'command': denseNet_mod.model_create_and_train
+            'command': denseNet_mod.model_create_and_train(data_preprocessor, callback, train_set, test_set)
         }
     }
 
@@ -53,7 +53,7 @@ def main():
 
     try:
         model_choosed = str(input('\n Choose Model: '))
-        assert model_choosed in models_available.values()
+        assert model_choosed in [model['model_type'] for model in models_available.values()]
         for key, value in models_available.items():
             if model_choosed == value:
                 model_choosed_key = key
@@ -61,4 +61,5 @@ def main():
         print('Model choosen does not exist in the model options available. Note this could be caused by a wrong spelling')
         main()
     
-    models_available[model_choosed]['command']()
+    #calling the respective command to start the model training based on the model choosen by user
+    models_available[model_choosed_key]['command']()
