@@ -17,7 +17,10 @@ train_set, test_set = data_preprocessor.dataset_splitting(train_image_aug, test_
 
 def main():
     models_available = {
-        '1': 'VGG16',
+        '1': {
+            'model_type':'VGG16',
+            'command': vgg_mod.model_create_and_train
+        },
         '2': 'VGG19',
         '3': 'ResNet50',
         '4': 'ResNet101',
@@ -33,8 +36,13 @@ def main():
     try:
         model_choosed = str(input('\n Choose Model: '))
         assert model_choosed in models_available.values()
+        for key, value in models_available.items():
+            if model_choosed == value:
+                model_choosed_key = key
     except AssertionError:
         print('Model choosen does not exist in the model options available. Note this could be caused by a wrong spelling')
         main()
     
     
+    
+    models_available[model_choosed]()

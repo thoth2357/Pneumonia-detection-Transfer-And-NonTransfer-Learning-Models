@@ -2,7 +2,7 @@ from tensorflow.keras.applications import DenseNet121
 from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, BatchNormalization, Reshape, GlobalAveragePooling2D
 from tensorflow.keras.models import Model
 
-def model_create_and_train(model_type,data_preprocessor, callback, train_set, test_set):
+def model_create_and_train(data_preprocessor, callback, train_set, test_set):
     '''
     argument: 
     purpose: Create DenseNet model with necessary hyperparameters
