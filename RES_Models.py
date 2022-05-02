@@ -42,11 +42,11 @@ def model_create_and_train(model_type,data_preprocessor, callback, train_set, te
         train_set,
         epochs = data_preprocessor.EPOCHS,
         steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,
-        batch_size = data_preprocessor.batch_size,
+        batch_size = data_preprocessor.BATCH_SIZE,
 
         validation_data = test_set,
         validation_steps = test_set.samples // data_preprocessor.BATCH_SIZE - 10,
-        callback = [checkpoint, learning_reducer, early_stop]
+        callbacks = [checkpoint, learning_reducer, early_stop]
     )
     return trained_model
 

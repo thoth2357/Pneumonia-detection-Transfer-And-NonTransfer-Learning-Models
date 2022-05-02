@@ -2,7 +2,7 @@ from tensorflow.keras.applications import DenseNet121
 from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, BatchNormalization, Reshape, GlobalAveragePooling2D
 from tensorflow.keras.models import Model
 
-def model_create_and_train(data_preprocessor, callback, train_set, test_set):
+def model_create_and_train(model_type, data_preprocessor, callback, train_set, test_set):
     '''
     argument: 
     purpose: Create DenseNet model with necessary hyperparameters
@@ -38,10 +38,10 @@ def model_create_and_train(data_preprocessor, callback, train_set, test_set):
         train_set,
         epochs = data_preprocessor.EPOCHS,
         steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,
-        batch_size = data_preprocessor.batch_size,
+        batch_size = data_preprocessor.BATCH_SIZE,
 
         validation_data = test_set,
         validation_steps = test_set.samples // data_preprocessor.BATCH_SIZE - 10,
-        callback = [checkpoint, learning_reducer, early_stop]
+        callbacks = [checkpoint, learning_reducer, early_stop]
     )
     return trained_model

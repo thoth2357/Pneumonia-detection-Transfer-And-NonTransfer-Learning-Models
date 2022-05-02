@@ -23,7 +23,7 @@ def model_create_and_train(model_type,data_preprocessor, callback, train_set, te
     model = model_name(
         weights = 'imagenet',
         include_top = False,
-        # input_shape = (224, 224, 3)
+        input_shape = (224, 224, 3)
     )
     for layer in model.layers:
         layer.trainable = False
@@ -46,15 +46,15 @@ def model_create_and_train(model_type,data_preprocessor, callback, train_set, te
     early_stop = callback.early_stopping()
 
     compiled_model = callback.model_compiler(model_final)
-    
-    trained_model = compiled_model.fit(
+    compiled_model.summary()
+    trained_model = model_final.fit(
         train_set,
         epochs = data_preprocessor.EPOCHS,
         steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,
-        batch_size = data_preprocessor.batch_size,
+        batch_size = data_preprocessor.BATCH_SIZE,
 
         validation_data = test_set,
         validation_steps = test_set.samples // data_preprocessor.BATCH_SIZE - 10,
-        callback = [checkpoint, learning_reducer, early_stop]
+        callbacks = [checkpoint, learning_reducer, early_stop]
     )
     return trained_model

@@ -22,6 +22,7 @@ if tf.test.gpu_device_name():
     print('GPU found')
 else:
     print("No GPU found")
+    
 warnings.filterwarnings("ignore")
 
 class Preprocessing():
@@ -73,7 +74,7 @@ class Preprocessing():
         for i in glob.glob(f'{self.DATA_DIR}/*'):
             non_pneumonia_images_count = len(glob.glob(i+'/no_pneumonia/*.png'))
             pneumonia_images_count = len(glob.glob(i+'/pneumonia/*.png'))
-            print(f'{i.split("/")[-1]} Dataset \n Non-pneumonia images: {non_pneumonia_images_count} \n pneumonia images: {pneumonia_images_count} \n')
+            # print(f'{i.split("/")[-1]} Dataset \n Non-pneumonia images: {non_pneumonia_images_count} \n pneumonia images: {pneumonia_images_count} \n')
 
             x = ['pneumonia', 'Non-pneumonia']
             y = [pneumonia_images_count, non_pneumonia_images_count]

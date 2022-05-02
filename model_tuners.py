@@ -1,13 +1,13 @@
-import tensorflow as tf
-from tf.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
-from tf.keras.metrics import BinaryAccuracy, Precision, Recall, AUC
+from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
+from tensorflow.keras.metrics import BinaryAccuracy, Precision, Recall, AUC
+from tensorflow.keras.optimizers import Adam
 
 class Callbacks():
     def __init__(self, monitor, patience):
         self.monitor = monitor
         self.patience = patience
         self.loss = 'binary_crossentropy'
-        self.optimizer = 'accuracy'
+        self.optimizer = 'adam'
         self.metrics = [
             BinaryAccuracy(name='accuracy'),
             Precision(name='precision'),
@@ -60,10 +60,10 @@ class Callbacks():
         purpose: compiles the model with the loss, optimizer and metric
         return: compiled model
         '''
-        compiled_model = model.compile(
+        model.compile(
             loss = self.loss,
             optimizer = self.optimizer,
             metrics = self.metrics
         )
-        return compiled_model
+        return model
     
