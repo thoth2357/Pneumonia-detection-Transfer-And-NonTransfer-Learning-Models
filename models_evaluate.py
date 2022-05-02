@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 class Model_Evaluate():
     
-    def plot_loss(trained_model, xlabel, ylabel):
+    def plot_loss(trained_model, xlabel):
         '''
         arguments:trained_model, axis, xlabel, ylabel
         purpose: plot the loss of the trained model against the epoch
@@ -58,7 +58,7 @@ class Model_Evaluate():
         plt.show()
 
 
-    def plot_accuracy(trained_model, xlabel, ylabel):
+    def plot_accuracy(trained_model, xlabel):
         '''
         arguments:trained_model, axis, xlabel, ylabel
         purpose: plot the loss of the trained model against the epoch

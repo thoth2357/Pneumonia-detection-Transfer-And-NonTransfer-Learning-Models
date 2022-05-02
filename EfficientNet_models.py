@@ -1,4 +1,4 @@
-from efficientnet.keras import EfficientNetB0
+from tensorflow.keras.applications.efficientnet import EfficientNetB0
 from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, BatchNormalization, Reshape, GlobalAveragePooling2D
 from tensorflow.keras.models import Model
 

@@ -2,7 +2,7 @@
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, BatchNormalization, Reshape, GlobalAveragePooling2D
 from tensorflow.keras.utils import plot_model
-from tensorflow.keras.applications import ResNet101, ResNet50
+from tensorflow.keras.applications import ResNet101, ResNet50V2
 
 
 
@@ -14,24 +14,28 @@ def model_create_and_train(model_type,data_preprocessor, callback, train_set, te
     '''
     if model_type == 'ResNet101':
         model_name = ResNet101
-    elif model_type == 'ResNet50':
-        model_name = ResNet50
+    elif model_type == 'ResNet50V2':
+        model_name = ResNet50V2
     else:
         return f'Error on Model type'
         quit()
 
     model = model_name(
         weights = 'imagenet',
-        include_top = False
+        include_top = False,
+        input_shape = (224, 224, 3)
+
     )
     for layer in model.layers:
         layer.trainable = False
     
     x = model.output
+    x = GlobalAveragePooling2D()(x)
     predictions = Dense(1, activation='sigmoid')(x)
 
     model_final = Model(inputs=model.input, outputs=predictions)
-
+    model_final.summary()
+    
     checkpoint = callback.model_checkpoint(model_type = 'VGG19')
     learning_reducer = callback.learning_reducer()
     early_stop = callback.early_stopping()

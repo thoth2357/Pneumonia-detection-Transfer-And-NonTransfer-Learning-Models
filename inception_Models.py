@@ -26,7 +26,7 @@ def model_create_and_train(model_type, data_preprocessor, callback, train_set, t
 
     x = Dense(1, activation='sigmoid')(x)
 
-    model_final = Model(inputs=model.input, output=x)
+    model_final = Model(inputs=model.input, outputs=x)
 
     checkpoint = callback.model_checkpoint(model_type = 'VGG19')
     learning_reducer = callback.learning_reducer()

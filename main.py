@@ -1,6 +1,7 @@
 import warnings 
 from preprocessing import *
 from model_tuners import Callbacks
+from models_evaluate import Model_Evaluate
 
 import VGG_Models as vgg_mod
 import RES_Models as res_mod
@@ -11,7 +12,9 @@ import DenseNet_Models as denseNet_mod
 warnings.filterwarnings("ignore")
 
 data_preprocessor = Preprocessing()
+evaluate_model = Model_Evaluate()
 callback = Callbacks(monitor = 'val_loss' , patience = 2)
+
 data_preprocessor.basic_descriptive_of_images()
 train_image_aug, test_image_aug = data_preprocessor.data_augmentation()
 
@@ -28,7 +31,7 @@ def main():
             'command': vgg_mod.model_create_and_train
         },
         '3': {
-            'model_type':'ResNet50',
+            'model_type':'ResNet50V2',
             'command': res_mod.model_create_and_train
         },
         '4': {
@@ -54,14 +57,17 @@ def main():
     {[model['model_type'] for model in models_available.values()]}''')
 
     try:
-        model_choosed = str(input('\n Choose Model: ')).upper()
+        model_choosed = str(input('\n Choose Model: '))
         model_choosed_key = ''
         assert model_choosed in [model['model_type'] for model in models_available.values()]
         for key, value in models_available.items():
             if model_choosed == value['model_type']:
                 model_choosed_key = key
         #calling the respective command to start the model training based on the model choosen by user
-        models_available[model_choosed_key]['command'](model_choosed,data_preprocessor, callback, train_set, test_set)
+        model_trained = models_available[model_choosed_key]['command'](model_choosed,data_preprocessor, callback, train_set, test_set)
+
+        #evaluating model performance
+        evaluate_model.plot_accuracy(model_trained)
     except AssertionError:
         print('Model choosen does not exist in the model options available. Note this could be caused by a wrong spelling')
         main()
