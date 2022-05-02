@@ -34,7 +34,7 @@ def model_create_and_train(model_type, data_preprocessor, callback, train_set, t
 
     compiled_model = callback.model_compiler(model_final)
 
-    trained_model = compiled_model.fit(
+    trained_model = compiled_model.fit_generator(
         train_set,
         epochs = data_preprocessor.EPOCHS,
         steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,
@@ -45,4 +45,3 @@ def model_create_and_train(model_type, data_preprocessor, callback, train_set, t
         callbacks = [checkpoint, learning_reducer, early_stop]
     )
     return trained_model
-    
