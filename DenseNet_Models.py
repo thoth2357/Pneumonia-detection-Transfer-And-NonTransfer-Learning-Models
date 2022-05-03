@@ -6,18 +6,20 @@ def model_create_and_train(model_type, data_preprocessor, callback, train_set, t
     '''
     argument: 
     purpose: Create DenseNet model with necessary hyperparameters
-    return: Created,compiled and trained Vgg model
+    return: Created,compiled and trained DenseNEt model
     '''
 
     model = DenseNet121(
         weights = 'imagenet',
-        include_top = False
+        include_top = False,
+        input_shape = (224, 224, 3)
+
     )
 
     for layer in model.layers:
         layer.trainable = False
 
-    x = model.output()
+    x = model.output
     x = GlobalAveragePooling2D()(x)
     x = BatchNormalization()(x)
 
@@ -28,13 +30,13 @@ def model_create_and_train(model_type, data_preprocessor, callback, train_set, t
 
     model_final = Model(inputs=model.input, outputs=predictions)
 
-    checkpoint = callback.model_checkpoint(model_type = 'VGG19')
+    checkpoint = callback.model_checkpoint(model_type = 'DenseNet121')
     learning_reducer = callback.learning_reducer()
     early_stop = callback.early_stopping()
 
     compiled_model = callback.model_compiler(model_final)
 
-    trained_model = compiled_model.fit_generator(
+    trained_model = compiled_model.fit(
         train_set,
         epochs = data_preprocessor.EPOCHS,
         steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,

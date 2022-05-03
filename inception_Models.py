@@ -12,7 +12,7 @@ def model_create_and_train(model_type, data_preprocessor, callback, train_set, t
     '''
 
     model = InceptionV3(
-        input_shape = (150, 150, 3),
+        input_shape = (224, 224, 3),
         include_top = False,
         weights = 'imagenet'
     )
@@ -28,13 +28,13 @@ def model_create_and_train(model_type, data_preprocessor, callback, train_set, t
 
     model_final = Model(inputs=model.input, outputs=x)
 
-    checkpoint = callback.model_checkpoint(model_type = 'VGG19')
+    checkpoint = callback.model_checkpoint(model_type = 'InceptionV3')
     learning_reducer = callback.learning_reducer()
     early_stop = callback.early_stopping()
     
     compiled_model = callback.model_compiler(model_final)
 
-    trained_model = compiled_model.fit_generator(
+    trained_model = compiled_model.fit(
         train_set,
         epochs = data_preprocessor.EPOCHS,
         steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,

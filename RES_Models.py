@@ -36,13 +36,13 @@ def model_create_and_train(model_type,data_preprocessor, callback, train_set, te
     model_final = Model(inputs=model.input, outputs=predictions)
     model_final.summary()
 
-    checkpoint = callback.model_checkpoint(model_type = 'VGG19')
+    checkpoint = callback.model_checkpoint(model_type = f'{model_name}')
     learning_reducer = callback.learning_reducer()
     early_stop = callback.early_stopping()
 
     compiled_model = callback.model_compiler(model_final)
     
-    trained_model = compiled_model.fit_generator(
+    trained_model = compiled_model.fit(
         train_set,
         epochs = data_preprocessor.EPOCHS,
         steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,

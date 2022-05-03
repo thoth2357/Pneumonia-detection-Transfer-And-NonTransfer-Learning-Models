@@ -40,7 +40,7 @@ class Preprocessing():
         ################# HYPERPARAMETER TUNING
         self.IMAGE_MIN_DIM = 224
         self.IMAGE_MAX_DIM = 224
-        self.EPOCHS = 30
+        self.EPOCHS = 1
         self.BATCH_SIZE = 30
 
     def plot_random_dataset_images(self) -> None:

@@ -1,7 +1,7 @@
 import warnings 
 from preprocessing import *
 from model_tuners import Callbacks
-from models_evaluate import Model_Evaluate
+from models_evaluate import plot_loss, plot_accuracy
 
 import VGG_Models as vgg_mod
 import RES_Models as res_mod
@@ -12,7 +12,6 @@ import DenseNet_Models as denseNet_mod
 warnings.filterwarnings("ignore")
 
 data_preprocessor = Preprocessing()
-evaluate_model = Model_Evaluate()
 callback = Callbacks(monitor = 'val_loss' , patience = 2)
 
 data_preprocessor.basic_descriptive_of_images()
@@ -65,9 +64,10 @@ def main():
                 model_choosed_key = key
         #calling the respective command to start the model training based on the model choosen by user
         model_trained = models_available[model_choosed_key]['command'](model_choosed,data_preprocessor, callback, train_set, test_set)
-
+        print('model_shown', model_trained.history)
+        
         #evaluating model performance
-        evaluate_model.plot_accuracy(model_trained)
+        plot_accuracy(model_trained.history)
     except AssertionError:
         print('Model choosen does not exist in the model options available. Note this could be caused by a wrong spelling')
         main()
