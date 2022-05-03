@@ -20,13 +20,14 @@ def plot_loss(trained_model, xlabel):
             )
         }
     )
-    model_history = pd.Dataframe.from_dict(model_history)
+    model_history = pd.DataFrame.from_dict(model_history)
     best_epoch = model_history.sort_values(
         by = 'val_loss',
         ascending = True,
     ).iloc[0]['epoch']
-    
-    fig, ax = plt.subplots(1, 2, figsize=(10, 3))
+
+    if not None:    
+        fig, ax = plt.subplots(1, 2, figsize=(10, 3))
 
     sns.lineplot(
         x = 'epochs',
@@ -44,9 +45,9 @@ def plot_loss(trained_model, xlabel):
         label = 'Training', 
     )
 
-    sns.axvline(
+    ax.axvline(
         x = best_epoch, 
-        linestyle = '**', 
+        linestyle = '--', 
         color = 'green',
         label = 'Best Epoch'
     )
@@ -64,7 +65,7 @@ def plot_accuracy(trained_model, xlabel):
     return: None
     '''
     model_history = trained_model
-    print('i got here', model_history)
+
     model_history.update(
         {'epoch': list(
             range(
@@ -73,16 +74,17 @@ def plot_accuracy(trained_model, xlabel):
             )
         }
     )
-    model_history = pd.Dataframe.from_dict(model_history)
+    model_history = pd.DataFrame.from_dict(model_history)
     best_epoch = model_history.sort_values(
         by = 'val_accuracy',
         ascending = False,
     ).iloc[0]['epoch']
     
-    fig, ax = plt.subplots(1, 2, figsize=(10, 3))
+    if not None:
+        fig, ax = plt.subplots(1, 1)
 
     sns.lineplot(
-        x = 'epochs',
+        x = 'epoch',
         y = 'val_accuracy',
         ax = ax,
         data = model_history,
@@ -90,7 +92,7 @@ def plot_accuracy(trained_model, xlabel):
     )
 
     sns.lineplot(
-        x = 'epochs',
+        x = 'epoch',
         y = 'accuracy',
         ax = ax,
         data = model_history,
@@ -101,9 +103,9 @@ def plot_accuracy(trained_model, xlabel):
     color='red', 
     label = 'Chance')
 
-    sns.axvline(
+    ax.axvline(
         x = best_epoch, 
-        linestyle = '**', 
+        linestyle = '--', 
         color = 'green',
         label = 'Best Epoch'
     )
