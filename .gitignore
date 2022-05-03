@@ -4,3 +4,4 @@ CMP9137M Assessment Item 1 - CRG 2021-2022.pdf
 MASK_RCNN_MODEL/mask_rcnn_coco.h5
 .ipynb_checkpoints
 *.hdf5
+*.pyc
