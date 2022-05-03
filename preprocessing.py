@@ -131,6 +131,14 @@ class Preprocessing():
             # shuffle=True,
             # color_mode="grayscale"
         )
-        return train_set, test_set
+        valid_set = train_image_gen.flow_from_directory(
+            self.VAL_DIR,
+            target_size=(self.IMAGE_MIN_DIM, self.IMAGE_MAX_DIM),
+            batch_size = self.BATCH_SIZE,
+            class_mode = 'binary',
+            # shuffle=True,
+            # color_mode="grayscale"
+        )
+        return train_set, test_set, valid_set
 
     

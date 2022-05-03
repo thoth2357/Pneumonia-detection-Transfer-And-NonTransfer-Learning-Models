@@ -4,7 +4,7 @@ from tensorflow.keras.utils import plot_model
 from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, BatchNormalization, Reshape, GlobalAveragePooling2D
 
 
-def model_create_and_train(model_type, data_preprocessor, callback, train_set, test_set):
+def model_create_and_train(model_type, data_preprocessor, callback, train_set, test_set, valid_set):
     '''
     argument:
     purpose: Create Inference model with necessary hyperparameters
@@ -40,7 +40,7 @@ def model_create_and_train(model_type, data_preprocessor, callback, train_set, t
         steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,
         batch_size = data_preprocessor.BATCH_SIZE,
 
-        validation_data = test_set,
+        validation_data = valid_set,
         validation_steps = test_set.samples // data_preprocessor.BATCH_SIZE - 10,
         callbacks = [checkpoint, learning_reducer, early_stop]
     )

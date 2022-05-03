@@ -6,7 +6,7 @@ from tensorflow.keras.applications import ResNet101, ResNet50V2
 
 
 
-def model_create_and_train(model_type,data_preprocessor, callback, train_set, test_set):
+def model_create_and_train(model_type,data_preprocessor, callback, train_set, test_set, valid_test):
     '''
     argument: model_type (which is going to be the type of Vgg model to work on either VGG19 or VGG 16)
     purpose: Create RES model with necessary hyperparameters
@@ -48,7 +48,7 @@ def model_create_and_train(model_type,data_preprocessor, callback, train_set, te
         steps_per_epoch = train_set.samples // data_preprocessor.BATCH_SIZE,
         batch_size = data_preprocessor.BATCH_SIZE,
 
-        validation_data = test_set,
+        validation_data = valid_set,
         validation_steps = test_set.samples // data_preprocessor.BATCH_SIZE - 10,
         callbacks = [checkpoint, learning_reducer, early_stop]
     )

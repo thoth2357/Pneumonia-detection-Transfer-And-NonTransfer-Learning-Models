@@ -17,7 +17,7 @@ callback = Callbacks(monitor = 'val_loss' , patience = 2)
 data_preprocessor.basic_descriptive_of_images()
 train_image_aug, test_image_aug = data_preprocessor.data_augmentation()
 
-train_set, test_set = data_preprocessor.dataset_splitting(train_image_aug, test_image_aug)
+train_set, test_set, valid_set = data_preprocessor.dataset_splitting(train_image_aug, test_image_aug)
 
 def main():
     models_available = {
@@ -63,10 +63,11 @@ def main():
             if model_choosed == value['model_type']:
                 model_choosed_key = key
         #calling the respective command to start the model training based on the model choosen by user
-        model_trained = models_available[model_choosed_key]['command'](model_choosed,data_preprocessor, callback, train_set, test_set)
+        model_trained = models_available[model_choosed_key]['command'](model_choosed,data_preprocessor, callback, train_set, test_set, valid_set)
         
         #evaluating model performance
         plot_accuracy(model_trained.history, 'Epoch')
+        
     except AssertionError:
         print('Model choosen does not exist in the model options available. Note this could be caused by a wrong spelling')
         main()
