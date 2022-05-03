@@ -63,11 +63,12 @@ def main():
             if model_choosed == value['model_type']:
                 model_choosed_key = key
         #calling the respective command to start the model training based on the model choosen by user
-        model_trained = models_available[model_choosed_key]['command'](model_choosed,data_preprocessor, callback, train_set, test_set, valid_set)
+        model_trained, model_test_eval = models_available[model_choosed_key]['command'](model_choosed,data_preprocessor, callback, train_set, test_set, valid_set)
         
         #evaluating model performance
         plot_accuracy(model_trained.history, 'Epoch')
         
+        print(f'{model_choosed} Model accuracy score on test data is {model_test_eval}')
     except AssertionError:
         print('Model choosen does not exist in the model options available. Note this could be caused by a wrong spelling')
         main()

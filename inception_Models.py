@@ -44,5 +44,6 @@ def model_create_and_train(model_type, data_preprocessor, callback, train_set, t
         validation_steps = test_set.samples // data_preprocessor.BATCH_SIZE - 10,
         callbacks = [checkpoint, learning_reducer, early_stop]
     )
-    return trained_model
+    model_test_eval = compiled_model.evaluate(test_set)
+    return trained_model, model_test_eval
 
